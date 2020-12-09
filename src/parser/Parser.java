@@ -30,7 +30,7 @@ public class Parser {
     public void readGrammar(String filename) throws Exception {
         grammar.readGrammar(filename);
     }
-
+    //closure operation looks alright nothing to add here
     public List<Pair<String, String>> ClosureLR(String analysis) {
         List<String> tokens = Arrays.stream(analysis.strip()
                 .replace("->", " ")
@@ -62,7 +62,7 @@ public class Parser {
         return P;
     }
 
-
+    //goto looks also ok
     public List<Pair<String, String>> gotoLR(List<Pair<String, String>> productions, String symbol) {
         List<Pair<String, String>> nestedList = new ArrayList<>();
         productions.stream()
@@ -74,6 +74,7 @@ public class Parser {
 
     }
 
+    //canonical collection also looks ok
     public List<List<Pair<String, String>>> ColCan_LR() {
 
         List<List<Pair<String, String>>> C = new ArrayList<>();
@@ -110,6 +111,7 @@ public class Parser {
         return C.containsAll(goToRes);
     }
 
+    //creation of the LR rable looks ok
     public HashMap<Integer, Pair<String, HashMap<String, Integer>>> createLRTable(List<List<Pair<String, String>>> states) {
         HashMap<Integer, Pair<String, HashMap<String, Integer>>> lrTable = new HashMap<>();
 
@@ -143,7 +145,7 @@ public class Parser {
     }
 
 
-
+    //algorithm correctly indentifies if we have a reduce
     private Integer hasReduce(List<Pair<String, String>> state) {
         for(Pair<String,String> lrItem: state){
             if(lrItem.getValue().charAt(lrItem.getValue().length()-1)=='.'){
@@ -153,6 +155,7 @@ public class Parser {
         return -1;
     }
 
+    //Algorithm looks ok, excluding the pop of alpha at reduce
     public List<String> parsingAlg(HashMap<Integer, Pair<String, HashMap<String, Integer>>>  lrTable,List<List<Pair<String, String>>> C,  String word) {
 
         //TODO work with stack
@@ -176,6 +179,7 @@ public class Parser {
                 String findReducer=lrTable.get(position).getKey().substring(7);
                 int reducer=Integer.parseInt(findReducer);
                 Pair<String,String> production=search_prod(reducer);
+                //this looks a bit weird, I guess this should be the pop for alpha?
                 for(int i=0;i<2*production.getValue().length();i++) {
                     alpha.remove(alpha.size()-1); //?
                 }
